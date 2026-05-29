@@ -10,7 +10,7 @@ function AppRoutes() {
         <Routes>
             <Route path='/' element={<ProjectsPage/>}/>
             <Route path='/project/:projectId' element={<KanbanPage/>}/>
-            <Route path='/task:taskId' element={<TaskDetailsPagePage/>}/>
+            <Route path='/task/:taskId' element={<TaskDetailsPage/>}/>
         </Routes>
     </BrowserRouter>
   );
