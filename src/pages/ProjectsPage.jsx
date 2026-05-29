@@ -8,11 +8,27 @@ import ProjectForm from '../components/projects/ProjectForm';
 
 function ProjectsPage() {
     const [projects,setProjects] = useState([]);
+    const [editingProject,setEditingProject] = useState(null);
+
 
     const addProject = (project)=>{
         setProjects([...projects,project]);
     };
+
+    const deleteProject = (id) => {
+        setProjects(
+            projects.filter(
+                project => project.id !==id
+            )
+        );
+    };
+
+    const editProject = (project) => {
+        setEditingProject(project);
+    };
     
+    
+
 
     return (
         <>
@@ -26,11 +42,18 @@ function ProjectsPage() {
                 <main className='content'>
                     <h1>Projects</h1>
 
-                    <ProjectForm addProject={addProject}/>
+                    <ProjectForm addProject={addProject}
+                                editingProject={editingProject}
+                                setEditingProject={setEditingProject}
+                                setProjects={setProjects}
+                                projects={projects}   />
 
                     {projects.map(project => (
                         <ProjectCard
-                            key={project.id} project={project}/>
+                            key={project.id} 
+                            project={project}
+                            deleteProject={deleteProject}
+                            editProject={editProject}/>
                     ))}
 
                 </main> 

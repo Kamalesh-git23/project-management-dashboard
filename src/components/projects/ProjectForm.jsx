@@ -1,7 +1,7 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
-function ProjectForm({addProject}) {
+function ProjectForm({addProject,editingProject,setEditingProject, projects, setProjects}) {
     const [formData, setFormData] = useState({
         name:"",
         description:"",
@@ -13,6 +13,12 @@ function ProjectForm({addProject}) {
         status:""
     });
 
+    useEffect(()=>{
+        if(editingProject){
+            setFormData(editingProject);
+        }
+    },[editingProject]);
+
     const handleChange = (e)=>{
         setFormData({
             ...formData,
@@ -23,15 +29,18 @@ function ProjectForm({addProject}) {
     const handleSubmit = (e)=>{
         e.preventDefault();
 
-        if(! formData.name.trim()){
-            alert("Project name is reauired");
-            return;
+        if(editingProject){
+            const updatedProjects = projects.map(project => 
+                project.id === editingProject.id ? formData:project);
+
+            setProjects(updatedProjects);
+            setEditingProject(null);
+        }else{
+            addProject({
+                id:Date.now(),
+                ...formData
+            });
         }
-    
-        addProject({
-            id: Date.now(),
-            ...formData
-        });
 
         setFormData({
             name:"",
@@ -74,7 +83,9 @@ function ProjectForm({addProject}) {
             </select>
 
             <button type='submit'>
-                Add Project
+                {
+                    editingProject ? "Update Project":"Add Project"
+                }
             </button>
         </form>
   );
