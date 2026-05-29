@@ -8,13 +8,23 @@ function ProjectCard({project}) {
         <p>{project.description}</p>
 
         <p>
-            priority:
+            Type:
+            {project.type}
+        </p>
+
+        <p>
+            Priority:
             {project.priority}
         </p>
 
         <p>
-            status:
+            Status:
             {project.status}
+        </p>
+
+        <p>
+            Team:
+            {project.teamMembers}
         </p>
     </div>
   );

@@ -45,3 +45,23 @@ body{
   border-radius: 10px;
   margin-top: 15px;
 }
+
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+input,
+textarea,
+select{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button{
+  padding: 10px;
+  cursor: pointer;
+}
