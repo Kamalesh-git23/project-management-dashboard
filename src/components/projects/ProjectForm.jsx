@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState,useEffect } from 'react';
+import { ProjectContext } from '../../context/ProjectContext';
 
-function ProjectForm({addProject,editingProject,setEditingProject, projects, setProjects}) {
+function ProjectForm({editingProject,setEditingProject}) {
+
+    const { addProject, updatedProject } = useContext(ProjectContext);
+
     const [formData, setFormData] = useState({
         name:"",
         description:"",
