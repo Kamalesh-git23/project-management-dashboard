@@ -57,16 +57,27 @@ function TaskDetailsPage() {
   };
 
   const handleFile = (e) =>{
-    const file = e.target.files[0];
-
-    if(!file) return;
+    const files = Array.from(e.target.files);
 
     setEditedTask((prev) => ({
       ...prev,
       attachments:[
         ...(prev.attachments || [] ),
-      {name:file.name},
-    ],
+
+        ...files.map(file => ({
+          name:file.name,
+          size:file.size,
+          type:file.type,
+        })),
+      ],
+    }));
+  };
+
+  const removeAttachment = (index) => {
+    setEditedTask((prev) => ({
+      ...prev,
+      attachments:
+        prev.attachments.filter((_,i) => i !== index),
     }));
   };
 
@@ -188,6 +199,7 @@ function TaskDetailsPage() {
         <h3>Attachments</h3>
 
         <input  type="file"
+                multiple
                 onChange={handleFile} />
 
         <ul>
@@ -195,6 +207,13 @@ function TaskDetailsPage() {
             .map((file,index) =>(
               <li key={index}>
                 {file.name}
+                (
+                  {(file.size/1024).toFixed(2)}KB
+                )
+
+                <button type='button' onClick={()=>removeAttachment(index)}>
+                  Remove
+                </button>
               </li>
             ))}
         </ul>
