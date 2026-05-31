@@ -1,23 +1,26 @@
-import React, { useState,useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { TaskContext } from '../context/TaskContext'
 
 function TaskDetailsPage() {
   const {taskId} = useParams();
-
+  
   const {tasks,updateTask} = useContext(TaskContext);
 
   const task = tasks.find(task => task.id === Number(taskId));
+  
+  const [note,setNote] = useState("");
 
-  const [editedTask,setEditedTask] = useState(
-    task || {
+  const [editedTask,setEditedTask] = useState({
       title:"",
       description:"",
       type:"",
       priority:"",
       state:"",
       dueDate:"",
-      dueTime:""
+      dueTime:"",
+      notes:[],
+      attachments:[]
   });
 
   useEffect(() => {
@@ -34,101 +37,176 @@ function TaskDetailsPage() {
     );
   }
 
-  const handleSave = () =>{
+  const handleChange = (e) => {
+    const {name,value} = e.target;
+
+    setEditedTask((prev) => ({
+      ...prev,[name]:value,
+    }));
+  };
+
+  const addNote = () =>{
+    if(!note.trim()) return;
+
+    setEditedTask((prev) => ({
+      ...prev,
+      notes: [...(prev.notes || []),note],
+    }));
+
+    setNote("");
+  };
+
+  const handleFile = (e) =>{
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    setEditedTask((prev) => ({
+      ...prev,
+      attachments:[
+        ...(prev.attachments || [] ),
+      {name:file.name},
+    ],
+    }));
+  };
+
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
     updateTask(task.id,editedTask);
     alert("Task Updated Successfully");
-  }
+  };
   
   return (
-    <div style={{padding:"20px"}}>
-
+    <div  className="task-details" 
+          style={{
+            maxWidth:"800px",
+            margin:"0 auto",
+            padding:"20px"
+            }} >
       <h1>Task Details</h1>
 
-      <label >Title</label>
-      <input  type="text" 
-              value={editedTask.title}
-              onChange={(e)=> 
-                setEditedTask({...editedTask,title: e.target.value,})
-              } />
+      <form onSubmit={handleSubmit}>
 
-      <br />
-      <br />
+        <label >Title</label>
+        <input  type="text"
+                name='title' 
+                value={editedTask.title}
+                onChange={handleChange} />
+
+        <br />
+        <br />
+        
+        <label >Description</label>
+        <textarea name='description'
+                  value={editedTask.description} 
+                  onChange={handleChange}
+                  rows="4"/>
+
+        <br />
+        <br />
+
+        <label >Type</label>
+        <input  type="text"
+                name='type'
+                value={editedTask.type}
+                onChange={handleChange}
+              />
+
+        <br />
+        <br />
+
+        <label >Priority</label>
+        <select name='priority'
+                value={editedTask.priority}
+                onChange={handleChange}
+        >
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+
+        <br />
+        <br />
+
+        <label >State</label>
+        <select name='state'
+                value={editedTask.state}
+                onChange={handleChange}
+        >
+          <option value="Todo">Todo</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Waiting">Waiting</option>
+          <option value="Done">Done</option>
+        </select>
+
+        <br />
+        <br />
+
+        <label >Due Date</label>
+        <input  type="date"
+                name='dueDate'
+                value={editedTask.dueDate}
+                onChange={handleChange}
+              />
+
+        <br />
+        <br />
+
+        <label >Due Time</label>
+        <input  type="time"
+                name='dueTime'
+                value={editedTask.dueTime}
+                onChange={handleChange}
+              />
+
+        <br />
+        <br />
+
+        <h3>Notes</h3>
       
-      <label >Description</label>
-      <textarea value={editedTask.description} 
-                onChange={(e)=> 
-                  setEditedTask({...editedTask,description:e.target.value,})
-                }/>
+        <input  type="text"
+                placeholder='Add Note'
+                value={note}
+                onChange={(e) => setNote(e.target.value)} 
+                />
 
-      <br />
-      <br />
+        <button type="button" onClick={addNote}>
+          Add Note
+        </button>
 
-      <label >Type</label>
-      <input  type="text"
-              value={editedTask.type}
-              onChange={(e) => 
-                setEditedTask({...editedTask,type:e.target.value,})
-              }
-             />
+        <ul>
+          {
+            (editedTask.notes || []).map(
+              (note,index) => (
+                <li key={index}> {note} </li>
+              )
+          )}
+        </ul>
 
-      <label >Priority</label>
-      <select value={editedTask.priority}
-              onChange={(e) => 
-                setEditedTask({...editedTask,priority:e.target.value,})
-              }
-      >
-        <option value="">Select Priority</option>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-      </select>
+        <h3>Attachments</h3>
 
-      <br />
-      <br />
+        <input  type="file"
+                onChange={handleFile} />
 
-      <label >State</label>
-      <select value={editedTask.state}
-              onChange={(e) => 
-                setEditedTask({...editedTask,state:e.target.value,})
-              }
-      >
-        <option value="Todo">Todo</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Waiting">Waiting</option>
-        <option value="Done">Done</option>
-      </select>
+        <ul>
+          {(editedTask.attachments || [])
+            .map((file,index) =>(
+              <li key={index}>
+                {file.name}
+              </li>
+            ))}
+        </ul>
 
-      <br />
-      <br />
+        <br />
 
-      <label >Due Date</label>
-      <input  type="date"
-              value={editedTask.dueDate}
-              onChange={(e) => 
-                setEditedTask({...editedTask,dueDate:e.target.value,})
-              }
-             />
-
-      <br />
-      <br />
-
-      <label >Due Time</label>
-      <input  type="time"
-              value={editedTask.dueTime}
-              onChange={(e) => 
-                setEditedTask({...editedTask,dueTime:e.target.value,})
-              }
-             />
-
-      <br />
-      <br />
-
-
-      <button onClick={handleSave}>
-        Save Changes
-      </button>
+        <button type='submit'>
+          Save Changes
+        </button>
+      </form>
     </div>
-  )
+  );
 }
 
 export default TaskDetailsPage;
