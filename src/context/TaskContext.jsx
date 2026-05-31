@@ -9,9 +9,17 @@ function TaskProvider({children}) {
     const addTask = (task) => {
         setTasks([...tasks,task]);
     };
+
+    const deleteTask = (id) =>{
+      setTasks(tasks.filter(task => task.id !== id));
+    };
+
+    const updateTask = (id,updatedTask) => {
+      setTasks(tasks.map(task => task.id === id ? updatedTask:task));
+    };
   return (
     <TaskContext.Provider
-        value={{tasks,addTask}}>
+        value={{tasks,addTask,deleteTask,updateTask}}>
         {children}
     </TaskContext.Provider>
   );

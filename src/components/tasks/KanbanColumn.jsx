@@ -7,8 +7,8 @@ function KanbanColumn({title,tasks}) {
       <h2>{title}</h2>
 
         {tasks.map(task =>(
-
             <TaskCard key={task.id} task={task}/>
+            
         ))}
 
     </div>

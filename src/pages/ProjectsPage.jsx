@@ -34,8 +34,6 @@ function ProjectsPage() {
         <>
             <Navbar/>
 
-
-
             <div className='layout'>
                 <Sidebar/>
 
