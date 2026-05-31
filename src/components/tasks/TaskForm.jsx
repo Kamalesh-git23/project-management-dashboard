@@ -24,7 +24,8 @@ function TaskForm({ projectId}) {
             id:Date.now(),
             projectId:Number(projectId),
             ...formData,
-            attachments:[]
+            attachments:[],
+            notes:[]
         });
 
         setFormData({
