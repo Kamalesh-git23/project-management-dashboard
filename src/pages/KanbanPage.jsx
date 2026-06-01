@@ -7,6 +7,11 @@ import { TaskContext } from '../context/TaskContext';
 import Layout from '../components/common/Layout';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
+import { FaPlus } from "react-icons/fa";
+import { FiSearch } from "react-icons/fi";
+import { FaFilter } from "react-icons/fa";
+import { FaSortAmountDown } from "react-icons/fa";
 
 function KanbanPage() {
   const {projectId} = useParams();
@@ -84,48 +89,67 @@ function KanbanPage() {
   return (
     <Layout>
 
-      <button onClick={() => navigate("/")}> ← Projects </button>
+      <button onClick={() => navigate("/")}> <FaArrowLeft/> Projects </button>
 
     
       <div className='kanban-page'>
       
         <h1>Project:{projectId}</h1>
 
+        <br /><br />
+
+        <h2> <FaPlus /> Add Task</h2>
+        <br />
         <TaskForm projectId={projectId} />
 
         <div className='filters'>
 
-          <input  type="text"
-                  placeholder='Search Tasks...'
-                  value={searchTerm}
-                  onChange={(e)=> setSearchTerm(e.target.value)} />
+          <div className='filter-group'>
+            <FiSearch/>
+            <input  type="text"
+                    placeholder='Search Tasks...'
+                    value={searchTerm}
+                    onChange={(e)=> setSearchTerm(e.target.value)} />
+          </div>
 
-          <select value={priorityFilter} 
-                  onChange={(e) => {setPriorityFilter(e.target.value)}}>
 
-            <option value="">All Priorities</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>    
-          </select>
+          <div className='filter-group'>
+            <FaFilter/>
+            <select value={priorityFilter} 
+                    onChange={(e) => {setPriorityFilter(e.target.value)}}>
 
-          <select value={stateFilter} 
-                  onChange={(e) => {setStateFilter(e.target.value)}}>
+              <option value="">All Priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>    
+            </select>
+          </div>
 
-            <option value="">All States</option>
-            <option value="Todo">Todo</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Waiting">Waiting</option>
-            <option value="Done">Done</option>    
-          </select>
 
-          <select value={sortBy} 
-                  onChange={(e) => {setSortBy(e.target.value)}}>
+          <div className='filter-group'>
+            <FaFilter/>
+            <select value={stateFilter} 
+                    onChange={(e) => {setStateFilter(e.target.value)}}>
 
-            <option value="">No Sorting</option>
-            <option value="dueDate">Due Date</option>
-            <option value="priority">Priority</option>
-          </select>
+              <option value="">All States</option>
+              <option value="Todo">Todo</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Done">Done</option>    
+            </select>
+          </div>
+
+          <div className='filter-group'>
+            <FaSortAmountDown/>
+            <select value={sortBy} 
+                    onChange={(e) => {setSortBy(e.target.value)}}>
+
+              <option value="">No Sorting</option>
+              <option value="dueDate">Due Date</option>
+              <option value="priority">Priority</option>
+            </select>
+          </div>
+
 
         </div>
 

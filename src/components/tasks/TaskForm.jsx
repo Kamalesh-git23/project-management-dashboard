@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { TaskContext } from '../../context/TaskContext';
+import { FaPlus } from 'react-icons/fa';
 
 function TaskForm({ projectId}) {
 
@@ -84,7 +85,10 @@ function TaskForm({ projectId}) {
                 <option value="Done">Done</option>
             </select>
 
-            <button type="submit">Add Task</button>
+            <button type="submit">
+                <FaPlus/>
+                {" "}Add Task
+            </button>
 
         </form>
   );

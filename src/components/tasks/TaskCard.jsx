@@ -2,6 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { TaskContext } from '../../context/TaskContext';
+import { FaTrash } from 'react-icons/fa';
+import { IoOpenOutline } from 'react-icons/io5';
 
 function TaskCard({task, provided}) {
 
@@ -34,9 +36,9 @@ function TaskCard({task, provided}) {
 
         <div className='task-actions'>
 
-          <button onClick={()=> navigate(`/task/${task.id}`)}>Details</button>
+          <button onClick={()=> navigate(`/task/${task.id}`)}> <IoOpenOutline/> Details</button>
           
-          <button onClick={()=> deleteTask(task.id)}>Delete</button>
+          <button onClick={()=> deleteTask(task.id)}> <FaTrash/> Delete</button>
         </div>
       
     </div>

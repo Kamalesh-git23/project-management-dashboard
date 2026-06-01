@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { TaskContext } from '../context/TaskContext'
 import Layout from '../components/common/Layout';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft,FaSave,FaStickyNote,FaTrash } from 'react-icons/fa';
 
 function TaskDetailsPage() {
   const {taskId} = useParams();
@@ -94,7 +95,7 @@ function TaskDetailsPage() {
   
   return (
     <Layout>
-      <button onClick={() => navigate(`/project/${task.projectId}`)}> ← Back to Board </button>
+      <button onClick={() => navigate(`/project/${task.projectId}`)}> <FaArrowLeft/> Back to Board </button>
 
       <div  className="task-details" 
             style={{
@@ -191,6 +192,7 @@ function TaskDetailsPage() {
                   />
 
           <button type="button" onClick={addNote}>
+            <FaStickyNote/>
             Add Note
           </button>
 
@@ -219,7 +221,8 @@ function TaskDetailsPage() {
                   )
 
                   <button type='button' onClick={()=>removeAttachment(index)}>
-                    Remove
+                    <FaTrash/>
+                    {" "}Remove
                   </button>
                 </li>
               ))}
@@ -228,6 +231,7 @@ function TaskDetailsPage() {
           <br />
 
           <button type='submit'>
+            <FaSave/>
             Save Changes
           </button>
         </form>
