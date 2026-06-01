@@ -4,11 +4,14 @@ import KanbanColumn from '../components/tasks/KanbanColumn';
 import TaskForm from '../components/tasks/TaskForm';
 import { useContext } from 'react';
 import { TaskContext } from '../context/TaskContext';
+import Layout from '../components/common/Layout';
+import { DragDropContext } from '@hello-pangea/dnd';
+import { useNavigate } from 'react-router-dom';
 
 function KanbanPage() {
   const {projectId} = useParams();
 
-  const {tasks} = useContext(TaskContext);
+  const {tasks,moveTask} = useContext(TaskContext);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -17,6 +20,8 @@ function KanbanPage() {
   const [stateFilter,setStateFilter] = useState("");
 
   const [sortBy,setSortBy] = useState("");
+
+  const navigate = useNavigate();
 
   const projectTasks = tasks.filter(task =>
     task.projectId === Number(projectId)
@@ -65,70 +70,89 @@ function KanbanPage() {
     );
   }
 
+  const handleDragEnd = (result) => {
+    if( !result.destination)
+      return;
+
+    const taskId = Number(result.draggableId);
+
+    const newState = result.destination.droppableId;
+
+    moveTask(taskId,newState);
+  };
+
   return (
-    <div className='kanban-page'>
-      <h1>Project:{projectId}</h1>
+    <Layout>
 
-      <TaskForm projectId={projectId} />
+      <button onClick={() => navigate("/")}> ← Projects </button>
 
-      <div className='filters'>
+    
+      <div className='kanban-page'>
+      
+        <h1>Project:{projectId}</h1>
 
-        <input  type="text"
-                placeholder='Search Tasks...'
-                value={searchTerm}
-                onChange={(e)=> setSearchTerm(e.target.value)} />
+        <TaskForm projectId={projectId} />
 
-        <select value={priorityFilter} 
-                onChange={(e) => {setPriorityFilter(e.target.value)}}>
+        <div className='filters'>
 
-          <option value="">All Priorities</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>    
-        </select>
+          <input  type="text"
+                  placeholder='Search Tasks...'
+                  value={searchTerm}
+                  onChange={(e)=> setSearchTerm(e.target.value)} />
 
-        <select value={stateFilter} 
-                onChange={(e) => {setStateFilter(e.target.value)}}>
+          <select value={priorityFilter} 
+                  onChange={(e) => {setPriorityFilter(e.target.value)}}>
 
-          <option value="">All States</option>
-          <option value="Todo">Todo</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Waiting">Waiting</option>
-          <option value="Done">Done</option>    
-        </select>
+            <option value="">All Priorities</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>    
+          </select>
 
-        <select value={sortBy} 
-                onChange={(e) => {setSortBy(e.target.value)}}>
+          <select value={stateFilter} 
+                  onChange={(e) => {setStateFilter(e.target.value)}}>
 
-          <option value="">No Sorting</option>
-          <option value="dueDate">Due Date</option>
-          <option value="priority">Priority</option>
-        </select>
+            <option value="">All States</option>
+            <option value="Todo">Todo</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Waiting">Waiting</option>
+            <option value="Done">Done</option>    
+          </select>
 
+          <select value={sortBy} 
+                  onChange={(e) => {setSortBy(e.target.value)}}>
 
+            <option value="">No Sorting</option>
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
+          </select>
+
+        </div>
+
+        <DragDropContext onDragEnd={handleDragEnd}>
+
+          <div className='kanban-board'>
+            <KanbanColumn
+              title="Todo"
+              tasks={filteredTasks.filter(task => task.state === "Todo")}/>
+
+            <KanbanColumn
+              title="In Progress"
+              tasks={filteredTasks.filter(task => task.state === "In Progress")}/>
+            
+            <KanbanColumn
+              title="Waiting"
+              tasks={filteredTasks.filter(task => task.state === "Waiting")}/>
+
+            <KanbanColumn
+              title="Done"
+              tasks={filteredTasks.filter(task => task.state === "Done")}/>
+
+          </div>
+        </DragDropContext>
+      
       </div>
-
-
-      <div className='kanban-board'>
-        <KanbanColumn
-          title="Todo"
-          tasks={filteredTasks.filter(task => task.state === "Todo")}/>
-
-        <KanbanColumn
-          title="In Progress"
-          tasks={filteredTasks.filter(task => task.state === "In Progress")}/>
-        
-        <KanbanColumn
-          title="Waiting"
-          tasks={filteredTasks.filter(task => task.state === "Waiting")}/>
-
-        <KanbanColumn
-          title="Done"
-          tasks={filteredTasks.filter(task => task.state === "Done")}/>
-
-      </div>
-
-    </div>
+    </Layout>
   );
 }
 

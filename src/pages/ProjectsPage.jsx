@@ -1,7 +1,6 @@
 import React, { useState,useContext } from 'react';
 
-import Navbar from '../components/common/Navbar';
-import Sidebar from '../components/common/Sidebar';
+import Layout from '../components/common/Layout';
 
 import ProjectCard from '../components/projects/ProjectCard';
 import ProjectForm from '../components/projects/ProjectForm';
@@ -11,42 +10,21 @@ import { ProjectContext } from '../context/ProjectContext';
 
 function ProjectsPage() {
 
-    const {projects, addProject, updateProject, deleteProject} = useContext(ProjectContext);
-    
-    const [editingProject,setEditingProject] = useState(null);
-
-    const editProject = (project) => {
-        setEditingProject(project);
-    };
+    const {projects} = useContext(ProjectContext);
     
     return (
-        <>
-            <Navbar/>
 
-            <div className='layout'>
-                <Sidebar/>
+        <Layout>
+            <h1>Projects</h1>
 
-                <main className='content'>
-                    <h1>Projects</h1>
+                <ProjectForm />
 
-                    <ProjectForm editingProject={editingProject}
-                                setEditingProject={setEditingProject}
-                                   />
-
-                    {projects.map(project => (
-                        <ProjectCard
-                            key={project.id} 
-                            project={project}
-                            deleteProject={deleteProject}
-                            editProject={editProject}/>
-                    ))}
-
-                </main> 
-            </div>
-
-            
-        </>
-  )
+                {projects.map(project => (
+                    <ProjectCard key={project.id}  project={project}/>
+                ))}
+        </Layout>
+                
+  );
 }
 
 export default ProjectsPage;

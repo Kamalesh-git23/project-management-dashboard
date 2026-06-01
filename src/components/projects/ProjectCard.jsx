@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProjectContext } from '../../context/ProjectContext';
 
-function ProjectCard({project,deleteProject,editProject}) {
+function ProjectCard({project}) {
     
     const navigate = useNavigate();
 
+    const {deleteProject,setEditingProject} = useContext(ProjectContext);
 
     return (
         <div className='project-card'>
@@ -18,12 +20,20 @@ function ProjectCard({project,deleteProject,editProject}) {
 
             <p> Status: {project.status} </p>
 
+            <p> Start Date:{" "}
+                {new Date(project.startDate).toLocaleDateString("en-GB")} 
+            </p>
+
+            <p> End Date:{" "}
+                {new Date(project.endDate).toLocaleDateString("en-GB")} 
+            </p>
+
             <p> Team: {project.teamMembers} </p>
 
             <div className='card-actions'>
                 <button onClick={()=> navigate(`/project/${project.id}`)}> Open Board </button>
 
-                <button onClick={()=> editProject(project)}> Edit</button>
+                <button onClick={()=> setEditingProject(project)}> Edit</button>
 
                 <button onClick={()=> deleteProject(project.id)}> Delete</button>
             </div>

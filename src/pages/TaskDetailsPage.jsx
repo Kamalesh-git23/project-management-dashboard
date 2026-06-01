@@ -1,9 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { TaskContext } from '../context/TaskContext'
+import Layout from '../components/common/Layout';
+import { useNavigate } from 'react-router-dom';
 
 function TaskDetailsPage() {
   const {taskId} = useParams();
+
+  const navigate = useNavigate();
   
   const {tasks,updateTask} = useContext(TaskContext);
 
@@ -89,142 +93,146 @@ function TaskDetailsPage() {
   };
   
   return (
-    <div  className="task-details" 
-          style={{
-            maxWidth:"800px",
-            margin:"0 auto",
-            padding:"20px"
-            }} >
-      <h1>Task Details</h1>
+    <Layout>
+      <button onClick={() => navigate(`/project/${task.projectId}`)}> ← Back to Board </button>
 
-      <form onSubmit={handleSubmit}>
+      <div  className="task-details" 
+            style={{
+              maxWidth:"800px",
+              margin:"0 auto",
+              padding:"20px"
+              }} >
+        <h1>Task Details</h1>
 
-        <label >Title</label>
-        <input  type="text"
-                name='title' 
-                value={editedTask.title}
-                onChange={handleChange} />
+        <form onSubmit={handleSubmit}>
 
-        <br />
-        <br />
-        
-        <label >Description</label>
-        <textarea name='description'
-                  value={editedTask.description} 
+          <label >Title</label>
+          <input  type="text"
+                  name='title' 
+                  value={editedTask.title}
+                  onChange={handleChange} />
+
+          <br />
+          <br />
+          
+          <label >Description</label>
+          <textarea name='description'
+                    value={editedTask.description} 
+                    onChange={handleChange}
+                    rows="4"/>
+
+          <br />
+          <br />
+
+          <label >Type</label>
+          <input  type="text"
+                  name='type'
+                  value={editedTask.type}
                   onChange={handleChange}
-                  rows="4"/>
-
-        <br />
-        <br />
-
-        <label >Type</label>
-        <input  type="text"
-                name='type'
-                value={editedTask.type}
-                onChange={handleChange}
-              />
-
-        <br />
-        <br />
-
-        <label >Priority</label>
-        <select name='priority'
-                value={editedTask.priority}
-                onChange={handleChange}
-        >
-          <option value="">Select Priority</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-
-        <br />
-        <br />
-
-        <label >State</label>
-        <select name='state'
-                value={editedTask.state}
-                onChange={handleChange}
-        >
-          <option value="Todo">Todo</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Waiting">Waiting</option>
-          <option value="Done">Done</option>
-        </select>
-
-        <br />
-        <br />
-
-        <label >Due Date</label>
-        <input  type="date"
-                name='dueDate'
-                value={editedTask.dueDate}
-                onChange={handleChange}
-              />
-
-        <br />
-        <br />
-
-        <label >Due Time</label>
-        <input  type="time"
-                name='dueTime'
-                value={editedTask.dueTime}
-                onChange={handleChange}
-              />
-
-        <br />
-        <br />
-
-        <h3>Notes</h3>
-      
-        <input  type="text"
-                placeholder='Add Note'
-                value={note}
-                onChange={(e) => setNote(e.target.value)} 
                 />
 
-        <button type="button" onClick={addNote}>
-          Add Note
-        </button>
+          <br />
+          <br />
 
-        <ul>
-          {
-            (editedTask.notes || []).map(
-              (note,index) => (
-                <li key={index}> {note} </li>
-              )
-          )}
-        </ul>
+          <label >Priority</label>
+          <select name='priority'
+                  value={editedTask.priority}
+                  onChange={handleChange}
+          >
+            <option value="">Select Priority</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
 
-        <h3>Attachments</h3>
+          <br />
+          <br />
 
-        <input  type="file"
-                multiple
-                onChange={handleFile} />
+          <label >State</label>
+          <select name='state'
+                  value={editedTask.state}
+                  onChange={handleChange}
+          >
+            <option value="Todo">Todo</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Waiting">Waiting</option>
+            <option value="Done">Done</option>
+          </select>
 
-        <ul>
-          {(editedTask.attachments || [])
-            .map((file,index) =>(
-              <li key={index}>
-                {file.name}
-                (
-                  {(file.size/1024).toFixed(2)}KB
+          <br />
+          <br />
+
+          <label >Due Date</label>
+          <input  type="date"
+                  name='dueDate'
+                  value={editedTask.dueDate}
+                  onChange={handleChange}
+                />
+
+          <br />
+          <br />
+
+          <label >Due Time</label>
+          <input  type="time"
+                  name='dueTime'
+                  value={editedTask.dueTime}
+                  onChange={handleChange}
+                />
+
+          <br />
+          <br />
+
+          <h3>Notes</h3>
+        
+          <input  type="text"
+                  placeholder='Add Note'
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)} 
+                  />
+
+          <button type="button" onClick={addNote}>
+            Add Note
+          </button>
+
+          <ul>
+            {
+              (editedTask.notes || []).map(
+                (note,index) => (
+                  <li key={index}> {note} </li>
                 )
+            )}
+          </ul>
 
-                <button type='button' onClick={()=>removeAttachment(index)}>
-                  Remove
-                </button>
-              </li>
-            ))}
-        </ul>
+          <h3>Attachments</h3>
 
-        <br />
+          <input  type="file"
+                  multiple
+                  onChange={handleFile} />
 
-        <button type='submit'>
-          Save Changes
-        </button>
-      </form>
-    </div>
+          <ul>
+            {(editedTask.attachments || [])
+              .map((file,index) =>(
+                <li key={index}>
+                  {file.name}
+                  (
+                    {(file.size/1024).toFixed(2)}KB
+                  )
+
+                  <button type='button' onClick={()=>removeAttachment(index)}>
+                    Remove
+                  </button>
+                </li>
+              ))}
+          </ul>
+
+          <br />
+
+          <button type='submit'>
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </Layout>
   );
 }
 
