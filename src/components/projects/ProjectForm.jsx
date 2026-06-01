@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import { useState,useEffect } from 'react';
 import { ProjectContext } from '../../context/ProjectContext';
 
-function ProjectForm({editingProject,setEditingProject}) {
+function ProjectForm() {
 
-    const { addProject, updatedProject } = useContext(ProjectContext);
+    const { addProject, updateProject, editingProject, setEditingProject } = useContext(ProjectContext);
 
     const [formData, setFormData] = useState({
         name:"",
@@ -30,32 +30,35 @@ function ProjectForm({editingProject,setEditingProject}) {
         });
     };
 
+    const resetForm = () => { 
+        setFormData({ 
+            name: "", 
+            description: "", 
+            type: "", 
+            startDate: "", 
+            endDate: "", 
+            priority: "", 
+            teamMembers: "", 
+            status: "" 
+        }); 
+    };
+
     const handleSubmit = (e)=>{
         e.preventDefault();
 
-        if(editingProject){
-            const updatedProjects = projects.map(project => 
-                project.id === editingProject.id ? formData:project);
+        if( !formData.name.trim())
+            return;
 
-            setProjects(updatedProjects);
+        if(editingProject){
+
+            updateProject(editingProject.id,formData);
+
             setEditingProject(null);
         }else{
-            addProject({
-                id:Date.now(),
-                ...formData
-            });
+            addProject( { id:Date.now(), ...formData } );
         }
-
-        setFormData({
-            name:"",
-            description:"",
-            type:"",
-            startDate:"",
-            endDate:"",
-            priority:"",
-            teamMembers:"",
-            status:""
-        });
+        
+        resetForm();
     };
 
     return (

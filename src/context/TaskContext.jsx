@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
-import { createContext,useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react';
 
 export const TaskContext = createContext();
 
 function TaskProvider({children}) {
+
     const [tasks,setTasks] = useState(()=>{
       const savedTasks = localStorage.getItem("tasks");
 
@@ -15,21 +15,34 @@ function TaskProvider({children}) {
     },[tasks]);
 
 
-
     const addTask = (task) => {
-        setTasks([...tasks,task]);
+        setTasks(prev => [...prev,task]);
     };
 
     const deleteTask = (id) =>{
-      setTasks(tasks.filter(task => task.id !== id));
+      setTasks(prev => prev.filter(task => task.id !== id));
     };
 
     const updateTask = (id,updatedTask) => {
-      setTasks(tasks.map(task => task.id === id ? updatedTask:task));
+      setTasks(prev =>  prev.map(task => task.id === id ? updatedTask:task));
     };
+
+    const moveTask = (taskId, newState) => {
+      setTasks(prev =>
+        prev.map(task =>
+          task.id === taskId ? {...task, state:newState} : task
+        )
+      );
+    };
+
   return (
     <TaskContext.Provider
-        value={{tasks,addTask,deleteTask,updateTask}}>
+        value={{
+          tasks,
+          addTask,
+          deleteTask,
+          updateTask,
+          moveTask}}>
         {children}
     </TaskContext.Provider>
   );

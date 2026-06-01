@@ -1,4 +1,4 @@
-import React,{createContext, useState, useEffect} from 'react'
+import React,{createContext, useState, useEffect} from 'react';
 
 export const ProjectContext = createContext();
 
@@ -8,9 +8,13 @@ function ProjectProvider({children}) {
         return savedProjects ? JSON.parse(savedProjects) : [];
     });
 
+    const [editingProject, setEditingProject] = useState(null);
+
     useEffect(()=> {
         localStorage.setItem("projects", JSON.stringify(projects));
     }, [projects]);
+
+
 
     const addProject = (project) => {
         setProjects(prev => [...prev,project]);
@@ -32,7 +36,14 @@ function ProjectProvider({children}) {
 
 
   return (
-    <ProjectContext.Provider value={{projects,addProject,updateProject,deleteProject}}>
+    <ProjectContext.Provider 
+        value={{
+            projects,
+            addProject,
+            updateProject,
+            deleteProject,
+            editingProject,
+            setEditingProject}}>
         {children}
     </ProjectContext.Provider>
   );
