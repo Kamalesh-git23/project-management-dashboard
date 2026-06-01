@@ -209,17 +209,6 @@ feature/*
      ↓
    main
 ```
-
----
-
-# 🎥 Demo Video
-
-_Add Demo Video Link Here_
-
-```text
-https://your-demo-video-link.com
-```
-
 ---
 
 # 🚀 Future Improvements
@@ -242,11 +231,3 @@ https://your-demo-video-link.com
 **Kamalesh A**
 
 - Email: kamalesh23112005@gmail.com
-- LinkedIn: :contentReference[oaicite:0]{index=0}
-- GitHub: :contentReference[oaicite:1]{index=1}
-
----
-
-# ⭐ If you like this project
-
-Give it a star on GitHub and feel free to contribute!
