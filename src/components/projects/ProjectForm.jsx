@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useState,useEffect } from 'react';
 import { ProjectContext } from '../../context/ProjectContext';
+import { FaPlus,FaSave } from 'react-icons/fa';
 
 function ProjectForm() {
 
@@ -91,7 +92,15 @@ function ProjectForm() {
 
             <button type='submit'>
                 {
-                    editingProject ? "Update Project":"Add Project"
+                    editingProject ? 
+                    <>
+                        <FaSave/>
+                        {" "}Update Project
+                    </> :
+                    <>
+                        <FaPlus/>
+                        {" "}Add Project
+                    </>
                 }
             </button>
         </form>

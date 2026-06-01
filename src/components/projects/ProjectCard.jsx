@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProjectContext } from '../../context/ProjectContext';
+import { FaEdit,FaTrash } from 'react-icons/fa';
+import { IoOpenOutline } from 'react-icons/io5';
 
 function ProjectCard({project}) {
     
@@ -31,11 +33,11 @@ function ProjectCard({project}) {
             <p> Team: {project.teamMembers} </p>
 
             <div className='card-actions'>
-                <button onClick={()=> navigate(`/project/${project.id}`)}> Open Board </button>
+                <button onClick={()=> navigate(`/project/${project.id}`)}> <IoOpenOutline /> Open Board </button>
 
-                <button onClick={()=> setEditingProject(project)}> Edit</button>
+                <button onClick={()=> setEditingProject(project)}> <FaEdit/> Edit</button>
 
-                <button onClick={()=> deleteProject(project.id)}> Delete</button>
+                <button onClick={()=> deleteProject(project.id)}> <FaTrash/> Delete</button>
             </div>
         </div>
   );

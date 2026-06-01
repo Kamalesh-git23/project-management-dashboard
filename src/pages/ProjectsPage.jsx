@@ -19,9 +19,12 @@ function ProjectsPage() {
 
                 <ProjectForm />
 
-                {projects.map(project => (
-                    <ProjectCard key={project.id}  project={project}/>
-                ))}
+                <div className='projects-grid'>
+                    {projects.map(project => (
+                        <ProjectCard key={project.id}  project={project}/>
+                    ))}
+                </div>
+                
         </Layout>
                 
   );
