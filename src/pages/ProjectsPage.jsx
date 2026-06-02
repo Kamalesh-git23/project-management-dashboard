@@ -1,29 +1,48 @@
-import React, { useState,useContext } from 'react';
+import React, {useContext} from 'react';
 
 import Layout from '../components/common/Layout';
 
 import ProjectCard from '../components/projects/ProjectCard';
-import ProjectForm from '../components/projects/ProjectForm';
 
 import { ProjectContext } from '../context/ProjectContext';
 
+import { useNavigate } from 'react-router-dom';
+
+import { FaPlus } from 'react-icons/fa';
 
 function ProjectsPage() {
 
     const {projects} = useContext(ProjectContext);
+
+    const navigate = useNavigate();
     
     return (
 
-        <Layout>
-            <h1>Projects</h1>
+        <Layout pageTitle="All Projects" 
+                actionButton={
+                    <button onClick={() => navigate("/projects/create")}>
+                        <FaPlus/>
+                        Create Project
+                    </button>
+                }>
 
-                <ProjectForm />
 
-                <div className='projects-grid'>
-                    {projects.map(project => (
-                        <ProjectCard key={project.id}  project={project}/>
-                    ))}
-                </div>
+            <div className='projects-grid'>
+
+                {projects.length > 0 ? (
+                    projects.map(project => (
+                    <ProjectCard key={project.id}  project={project}/>
+                ))
+                ):(
+                    <div className="empty-state">
+                        <h2>No Projects Found</h2>
+
+                        <p>Create your first project.</p>
+                    </div>
+                )}
+
+                
+            </div>
                 
         </Layout>
                 

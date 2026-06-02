@@ -1,12 +1,18 @@
 import React from 'react'
 import { FaProjectDiagram } from 'react-icons/fa';
 
-function Navbar() {
+function Navbar({pageTitle, actionButton}) {
   return (
     <nav className='navbar'>
-        <h1>
-          <FaProjectDiagram/>
-          {" "}Project Management Dashboard</h1>
+
+      <div className='navbar-left'>
+        <h1>{pageTitle}</h1>
+      </div>
+
+      <div className='navbar-right'>
+        <h1>{actionButton}</h1>
+      </div>
+        
     </nav>
   );
 }

@@ -1,28 +1,6 @@
-import React, { useContext } from 'react'
-import { useState,useEffect } from 'react';
-import { ProjectContext } from '../../context/ProjectContext';
-import { FaPlus,FaSave } from 'react-icons/fa';
+import React from 'react'
 
-function ProjectForm() {
-
-    const { addProject, updateProject, editingProject, setEditingProject } = useContext(ProjectContext);
-
-    const [formData, setFormData] = useState({
-        name:"",
-        description:"",
-        type:"",
-        startDate:"",
-        endDate:"",
-        priority:"",
-        teamMembers:"",
-        status:""
-    });
-
-    useEffect(()=>{
-        if(editingProject){
-            setFormData(editingProject);
-        }
-    },[editingProject]);
+function ProjectForm({formData, setFormData}) {
 
     const handleChange = (e)=>{
         setFormData({
@@ -31,39 +9,8 @@ function ProjectForm() {
         });
     };
 
-    const resetForm = () => { 
-        setFormData({ 
-            name: "", 
-            description: "", 
-            type: "", 
-            startDate: "", 
-            endDate: "", 
-            priority: "", 
-            teamMembers: "", 
-            status: "" 
-        }); 
-    };
-
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-
-        if( !formData.name.trim())
-            return;
-
-        if(editingProject){
-
-            updateProject(editingProject.id,formData);
-
-            setEditingProject(null);
-        }else{
-            addProject( { id:Date.now(), ...formData } );
-        }
-        
-        resetForm();
-    };
-
     return (
-        <form onSubmit={handleSubmit}>
+        <form >
             <input type="text" name='name' placeholder='Project Name' value={formData.name} onChange={handleChange} />
 
             <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
@@ -89,20 +36,6 @@ function ProjectForm() {
                 <option value="Completed">Completed</option>
                 <option value="On Hold">On Hold</option>
             </select>
-
-            <button type='submit'>
-                {
-                    editingProject ? 
-                    <>
-                        <FaSave/>
-                        {" "}Update Project
-                    </> :
-                    <>
-                        <FaPlus/>
-                        {" "}Add Project
-                    </>
-                }
-            </button>
         </form>
   );
 }
