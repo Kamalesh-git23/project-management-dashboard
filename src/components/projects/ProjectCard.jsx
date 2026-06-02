@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { ProjectContext } from '../../context/ProjectContext';
+
 import { FaEdit,FaTrash } from 'react-icons/fa';
-import { IoOpenOutline } from 'react-icons/io5';
 
 function ProjectCard({project}) {
     
     const navigate = useNavigate();
 
-    const {deleteProject,setEditingProject} = useContext(ProjectContext);
+    const {deleteProject} = useContext(ProjectContext);
 
     return (
-        <div className='project-card'>
+        <div className='project-card' onClick={()=> navigate(`/project/${project.id}`)}>
             <h3>{project.name}</h3>
 
             <p>{project.description}</p>
@@ -33,11 +34,23 @@ function ProjectCard({project}) {
             <p> Team: {project.teamMembers} </p>
 
             <div className='card-actions'>
-                <button onClick={()=> navigate(`/project/${project.id}`)}> <IoOpenOutline /> Open Board </button>
 
-                <button onClick={()=> setEditingProject(project)}> <FaEdit/> Edit</button>
+                <button onClick={(e)=> {
+                    e.stopPropagation();
+                    navigate(`/projects/edit/${project.id}`);
+                }}> 
+                    <FaEdit/>
+                    Edit
+                </button>
 
-                <button onClick={()=> deleteProject(project.id)}> <FaTrash/> Delete</button>
+                <button onClick={(e)=> {
+                    e.stopPropagation();
+                    deleteProject(project.id);
+
+                }}> 
+                    <FaTrash/>
+                    Delete
+                </button>
             </div>
         </div>
   );

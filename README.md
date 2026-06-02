@@ -229,5 +229,3 @@ feature/*
 # 👨‍💻 Author
 
 **Kamalesh A**
-
-- Email: kamalesh23112005@gmail.com
