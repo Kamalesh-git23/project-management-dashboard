@@ -177,7 +177,7 @@ function TasksPage() {
                     <td>{task.notes?.length || 0}</td>
                     <td>{task.attachments?.length || 0}</td>
 
-                    <td>
+                    <td className="last-btn">
                       <button
                         className="icon-btn edit-btn"
                         onClick={() => navigate(`/tasks/edit/${task.id}`)}
