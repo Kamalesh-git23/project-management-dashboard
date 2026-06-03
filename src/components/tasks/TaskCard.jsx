@@ -36,9 +36,29 @@ function TaskCard({task, provided}) {
 
         <div className='task-actions'>
 
-          <button onClick={()=> navigate(`/task/${task.id}`)}> <IoOpenOutline/> Details</button>
+          <button
+            className="icon-btn details-btn"
+            title="Task Details"
+            onClick={()=> navigate(`/tasks/edit/${task.id}`)}> 
+            
+            <IoOpenOutline/>
+          </button>
           
-          <button onClick={()=> deleteTask(task.id)}> <FaTrash/> Delete</button>
+          <button
+            className="icon-btn delete-btn"
+            title="Delete Task" 
+            onClick={()=> {
+              const confirmed = window.confirm(
+                `Delete task "${task.title}"?\n\nThis action cannot be undone.`
+              );
+
+              if(confirmed){
+                deleteTask(task.id);
+              }
+
+            }}> 
+            <FaTrash/>
+          </button>
         </div>
       
     </div>

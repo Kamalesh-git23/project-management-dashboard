@@ -8,10 +8,10 @@ function Sidebar() {
   return (
     <aside className='sidebar'>
 
-      <NavLink to="/dashboard">
+      {/* <NavLink to="/dashboard">
         <MdDashboard/>
         Dashboard
-      </NavLink>
+      </NavLink> */}
 
       <NavLink to="/projects">
         <FaProjectDiagram/>

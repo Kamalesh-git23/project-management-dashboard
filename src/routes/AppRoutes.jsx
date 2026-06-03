@@ -4,7 +4,11 @@ import ProjectsPage from '../pages/ProjectsPage';
 import CreateProjectPage from '../pages/CreateProjectPage';
 import EditProjectPage from '../pages/EditProjectPage';
 import KanbanPage from '../pages/KanbanPage';
-import TaskDetailsPage from '../pages/TaskDetailsPage';
+import CreateTaskPage from '../pages/CreateTaskPage';
+import EditTaskPage from '../pages/EditTaskPage';
+import TasksPage from '../pages/TasksPage';
+
+
 
 function AppRoutes() {
   return (
@@ -13,8 +17,12 @@ function AppRoutes() {
             <Route path='/projects' element={<ProjectsPage/>}/>
             <Route path='/projects/create' element={<CreateProjectPage/>}/>
             <Route path='/projects/edit/:projectId' element={<EditProjectPage/>}/>
+
             <Route path='/project/:projectId' element={<KanbanPage/>}/>
-            <Route path='/task/:taskId' element={<TaskDetailsPage/>}/>
+            <Route path='/tasks/create' element={<CreateTaskPage/>}/>
+            <Route path='/tasks/edit/:taskId' element={<EditTaskPage/>}/>
+            
+            <Route path='/tasks' element={<TasksPage/>}/>
         </Routes>
     </BrowserRouter>
   );

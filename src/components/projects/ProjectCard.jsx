@@ -11,6 +11,17 @@ function ProjectCard({project}) {
 
     const {deleteProject} = useContext(ProjectContext);
 
+    const handleDeleteProject = (e) => {
+        e.stopPropagation();
+
+        const confirmed = window.confirm(
+            `Delete project "${project.name}"?\n\nThis action cannot be undone.`);
+
+        if(!confirmed) return;
+        
+        deleteProject(project.id);
+    };
+
     return (
         <div className='project-card' onClick={()=> navigate(`/project/${project.id}`)}>
             <h3>{project.name}</h3>
@@ -35,21 +46,19 @@ function ProjectCard({project}) {
 
             <div className='card-actions'>
 
-                <button onClick={(e)=> {
-                    e.stopPropagation();
-                    navigate(`/projects/edit/${project.id}`);
-                }}> 
+                <button className="icon-btn edit-btn"
+                        onClick={(e)=> {
+                            e.stopPropagation();
+                            navigate(`/projects/edit/${project.id}`);
+                        }}
+                        title="Edit Project"> 
                     <FaEdit/>
-                    Edit
                 </button>
 
-                <button onClick={(e)=> {
-                    e.stopPropagation();
-                    deleteProject(project.id);
-
-                }}> 
+                <button className="icon-btn delete-btn"
+                        onClick={handleDeleteProject}
+                        title="Delete Project"> 
                     <FaTrash/>
-                    Delete
                 </button>
             </div>
         </div>

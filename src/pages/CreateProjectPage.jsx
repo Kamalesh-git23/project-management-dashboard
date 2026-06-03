@@ -6,7 +6,7 @@ import ProjectForm from '../components/projects/ProjectForm';
 
 import { ProjectContext } from '../context/ProjectContext';
 
-import { FaPlus } from 'react-icons/fa';
+import { FaSave } from 'react-icons/fa';
 
 function CreateProjectPage() {
 
@@ -48,11 +48,11 @@ function CreateProjectPage() {
 
 
   return (
-    <Layout pageTitle="Create Project"
+    <Layout pageTitle="New Project"
             actionButton={
                 <button disabled={!isFormValid} onClick={handleCreateProject} >
-                    <FaPlus/>
-                    Create Project
+                    <FaSave/>
+                    Save Project
                 </button>
             }>
 
@@ -61,13 +61,17 @@ function CreateProjectPage() {
             setFormData={setFormData}/>
 
         <div className='form-actions'>
-            <button type='button' className='cancel-btn' onClick={() => navigate("/projects")}>
+            <button type='button' 
+                    className='cancel-btn' 
+                    onClick={() => navigate("/projects")}>
                 cancel
             </button>
 
-            <button type='button' disabled={!isFormValid} onClick={handleCreateProject} >
-                <FaPlus/>
-                Create project
+            <button type='button' 
+                    disabled={!isFormValid} 
+                    onClick={handleCreateProject} >
+                <FaSave/>
+                Save project
             </button>
         </div>
 

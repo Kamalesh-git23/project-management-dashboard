@@ -41,7 +41,7 @@ function EditProjectPage() {
 
     if(!project){
         return (
-            <Layout pageTitle="Edit Project">
+            <Layout pageTitle="Project Settings">
                 <h2>Project Not Found</h2>
             </Layout>
         );
@@ -57,10 +57,16 @@ function EditProjectPage() {
         formData.teamMembers.trim() &&
         formData.status;
 
-    const handleUpdateProject = () => {
+    const handleSaveChanges = () => {
         if (!isFormValid) return;
 
-        updateProject(project.id,formData);
+        updateProject(
+            project.id,
+            {
+                ...formData,
+                id:project.id
+            }
+        );
 
         navigate("/projects");
     };
@@ -68,11 +74,11 @@ function EditProjectPage() {
 
   return (
     <Layout
-        pageTitle="Edit Project"
+        pageTitle="Project Settings"
         actionButton={
-            <button disabled={!isFormValid} onClick={handleUpdateProject}>
+            <button disabled={!isFormValid} onClick={handleSaveChanges}>
                 <FaSave/>
-                Update Project
+                Save Changes
             </button>
         }>
 
@@ -80,16 +86,18 @@ function EditProjectPage() {
 
         <div className='form-actions'>
             <button
+                type="button"
                 className='cancel-btn'
                 onClick={()=> navigate("/projects")}>
                 Cancel
             </button>
 
             <button 
+                type="button"
                 disabled={!isFormValid} 
-                onClick={handleUpdateProject}>
+                onClick={handleSaveChanges}>
                 <FaSave/>
-                Update Project
+                Save Changes
             </button>
         </div>
       
