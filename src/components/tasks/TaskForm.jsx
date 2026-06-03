@@ -1,21 +1,6 @@
-import React, { useContext, useState } from 'react'
-import { TaskContext } from '../../context/TaskContext';
-import { FaPlus } from 'react-icons/fa';
+import React from 'react'
 
-function TaskForm({ projectId}) {
-
-    const {addTask} = useContext(TaskContext);
-    
-    const [formData,setFormData] = useState({
-        title:"",
-        description:"",
-        type:"",
-        priority:"",
-        dueDate:"",
-        dueTime:"",
-        state:"Todo",
-        attachments:[],
-    });
+function TaskForm({ formData, setFormData}) {
 
     const handleChange = (e) => {
         setFormData({...formData,[e.target.name]:e.target.value});
@@ -26,69 +11,75 @@ function TaskForm({ projectId}) {
 
         setFormData(prev => ({
             ...prev,
-            attachments: files.map( file => ({
-                name:file.name,
-                size: file.size,
-                type: file.type,
-            })),
+            attachments:[
+                ...(prev.attachments || []),
+
+                ...files.map(file => ({
+                    name:file.name,
+                    size:file.size,
+                    type:file.type
+                }))
+            ]
         }));
     };
 
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-
-        addTask({
-            id:Date.now(),
-            projectId:Number(projectId),
-            ...formData,
-            notes:[],
-        });
-
-        setFormData({
-            title:"",
-            description:"",
-            type:"",
-            priority:"",
-            dueDate:"",
-            dueTime:"",
-            state:"Todo",
-            attachments:[],
-        });
-    };
-
-
     return (
-        <form onSubmit={handleSubmit}>
-            <input type='text' name="title" placeholder="Task Title" value={formData.title} onChange={handleChange} />
+        <form className="task-form">
 
-            <textarea name="description" placeholder="Task Description" value={formData.description} onChange={handleChange} />
+            <div className="form-section">
+                <h3>Task Information</h3>
 
-            <input type='text' name="type" placeholder="Task Type" value={formData.type} onChange={handleChange} />
+                <label>Task Title*</label>
+                <input type='text' name="title" placeholder="Task Title" value={formData.title} onChange={handleChange} />
 
-            <select name="priority" value={formData.priority} onChange={handleChange} >
-                <option value="">Select Priority</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-            </select>
+                <label>Description*</label>
+                <textarea name="description" placeholder="Task Description" value={formData.description} onChange={handleChange} />
 
-            <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} />
+                <label>Task Type*</label>
+                <input type='text' name="type" placeholder="Task Type" value={formData.type} onChange={handleChange} />
 
-            <input type="time" name="dueTime" value={formData.dueTime} onChange={handleChange} />
+            </div>
 
-            <input type="file" multiple onChange={handleFileChange} />
 
-            <select name="state" value={formData.state} onChange={handleChange}>
-                <option value="Todo">Todo</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Waiting">Waiting</option>
-                <option value="Done">Done</option>
-            </select>
+            <div className="form-section">
+                <h3>Scheduling</h3>
 
-            <button type="submit">
-                <FaPlus/>
-                {" "}Add Task
-            </button>
+                <label>Due Date*</label>
+                <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} />
+
+                <label>Due Time*</label>
+                <input type="time" name="dueTime" value={formData.dueTime} onChange={handleChange} />
+
+            </div>
+
+
+            <div className="form-section">
+                <h3>Workflow</h3>
+
+                <label>Priority*</label>
+                <select name="priority" value={formData.priority} onChange={handleChange} >
+                    <option value="">Select Priority</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+
+                <label>Status*</label>
+                <select name="state" value={formData.state} onChange={handleChange}>
+                    <option value="Todo">Todo</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Waiting">Waiting</option>
+                    <option value="Done">Done</option>
+                </select>
+
+            </div>
+
+            <div className="form-section">
+                <h3>Resources</h3>
+
+                <label>Attachments*</label>
+                <input type="file" multiple onChange={handleFileChange} />
+            </div>
 
         </form>
   );

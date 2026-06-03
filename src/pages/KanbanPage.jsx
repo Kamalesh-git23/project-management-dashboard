@@ -1,81 +1,32 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import KanbanColumn from '../components/tasks/KanbanColumn';
-import TaskForm from '../components/tasks/TaskForm';
-import { useContext } from 'react';
-import { TaskContext } from '../context/TaskContext';
+import React, { useContext } from 'react';
+import { useParams,useNavigate } from 'react-router-dom';
+
 import Layout from '../components/common/Layout';
+import KanbanColumn from '../components/tasks/KanbanColumn';
+
+import { TaskContext } from '../context/TaskContext';
+import { ProjectContext } from '../context/ProjectContext';
+
 import { DragDropContext } from '@hello-pangea/dnd';
-import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+
 import { FaPlus } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
-import { FaFilter } from "react-icons/fa";
-import { FaSortAmountDown } from "react-icons/fa";
+
 
 function KanbanPage() {
   const {projectId} = useParams();
 
-  const {tasks,moveTask} = useContext(TaskContext);
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [priorityFilter,setPriorityFilter] = useState("");
-
-  const [stateFilter,setStateFilter] = useState("");
-
-  const [sortBy,setSortBy] = useState("");
-
   const navigate = useNavigate();
 
-  const projectTasks = tasks.filter(task =>
-    task.projectId === Number(projectId)
-  );
+  const {tasks,moveTask} = useContext(TaskContext);
 
-  let filteredTasks = projectTasks.filter(task => {
-    const matchesSearch = 
-      task.title.toLowerCase().includes(searchTerm.toLowerCase())
-      || 
-      task.description.toLowerCase().includes(searchTerm.toLowerCase());
+  const {projects} = useContext(ProjectContext);
 
-    const matchesPriority =
-      priorityFilter === ""
-      ||
-      task.priority === priorityFilter;
+  const project = projects.find(project => project.id === Number(projectId));
 
-    const matchesState = 
-      stateFilter === ""
-      ||
-      task.state === stateFilter;
-
-    return(
-      matchesSearch &&
-      matchesPriority &&
-      matchesState
-    );
-  });
-
-  if (sortBy === "dueDate"){
-    filteredTasks.sort(
-      (a,b) =>
-        new Date(a.dueDate) - new Date(b.dueDate)
-    );
-  }
-
-  if (sortBy === "priority"){
-    const order = {
-      High: 1,
-      Medium: 2,
-      Low: 3,
-    };
-
-    filteredTasks.sort(
-      (a,b) =>
-        order[a.priority] - order[b.priority]
-    );
-  }
+  const projectTasks = tasks.filter(task => task.projectId === Number(projectId));
 
   const handleDragEnd = (result) => {
+
     if( !result.destination)
       return;
 
@@ -87,90 +38,39 @@ function KanbanPage() {
   };
 
   return (
-    <Layout>
+    <Layout 
+      pageTitle={project ? `${project.name} Board` : "Project Board" }
+      actionButton={
+        <button
+          onClick={() => navigate(`/tasks/create?projectId=${projectId}`)}>
+            <FaPlus/>
+            New Task
+          </button>
+      }>
 
-      <button onClick={() => navigate("/")}> <FaArrowLeft/> Projects </button>
+      
 
     
       <div className='kanban-page'>
       
-        <h1>Project:{projectId}</h1>
-
-        <br /><br />
-
-        <h2> <FaPlus /> Add Task</h2>
-        <br />
-        <TaskForm projectId={projectId} />
-
-        <div className='filters'>
-
-          <div className='filter-group'>
-            <FiSearch/>
-            <input  type="text"
-                    placeholder='Search Tasks...'
-                    value={searchTerm}
-                    onChange={(e)=> setSearchTerm(e.target.value)} />
-          </div>
-
-
-          <div className='filter-group'>
-            <FaFilter/>
-            <select value={priorityFilter} 
-                    onChange={(e) => {setPriorityFilter(e.target.value)}}>
-
-              <option value="">All Priorities</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>    
-            </select>
-          </div>
-
-
-          <div className='filter-group'>
-            <FaFilter/>
-            <select value={stateFilter} 
-                    onChange={(e) => {setStateFilter(e.target.value)}}>
-
-              <option value="">All States</option>
-              <option value="Todo">Todo</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Waiting">Waiting</option>
-              <option value="Done">Done</option>    
-            </select>
-          </div>
-
-          <div className='filter-group'>
-            <FaSortAmountDown/>
-            <select value={sortBy} 
-                    onChange={(e) => {setSortBy(e.target.value)}}>
-
-              <option value="">No Sorting</option>
-              <option value="dueDate">Due Date</option>
-              <option value="priority">Priority</option>
-            </select>
-          </div>
-
-
-        </div>
-
         <DragDropContext onDragEnd={handleDragEnd}>
 
           <div className='kanban-board'>
             <KanbanColumn
               title="Todo"
-              tasks={filteredTasks.filter(task => task.state === "Todo")}/>
+              tasks={projectTasks.filter(task => task.state === "Todo")}/>
 
             <KanbanColumn
               title="In Progress"
-              tasks={filteredTasks.filter(task => task.state === "In Progress")}/>
+              tasks={projectTasks.filter(task => task.state === "In Progress")}/>
             
             <KanbanColumn
               title="Waiting"
-              tasks={filteredTasks.filter(task => task.state === "Waiting")}/>
+              tasks={projectTasks.filter(task => task.state === "Waiting")}/>
 
             <KanbanColumn
               title="Done"
-              tasks={filteredTasks.filter(task => task.state === "Done")}/>
+              tasks={projectTasks.filter(task => task.state === "Done")}/>
 
           </div>
         </DragDropContext>

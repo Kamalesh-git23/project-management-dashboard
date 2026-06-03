@@ -18,11 +18,11 @@ function ProjectsPage() {
     
     return (
 
-        <Layout pageTitle="All Projects" 
+        <Layout pageTitle="Projects Overview" 
                 actionButton={
                     <button onClick={() => navigate("/projects/create")}>
                         <FaPlus/>
-                        Create Project
+                        New Project
                     </button>
                 }>
 
