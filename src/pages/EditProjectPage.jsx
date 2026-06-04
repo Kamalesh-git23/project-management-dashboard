@@ -68,7 +68,7 @@ function EditProjectPage() {
             }
         );
 
-        navigate("/projects");
+        navigate("/");
     };
     
 
@@ -88,7 +88,7 @@ function EditProjectPage() {
             <button
                 type="button"
                 className='cancel-btn'
-                onClick={()=> navigate("/projects")}>
+                onClick={()=> navigate("/")}>
                 Cancel
             </button>
 

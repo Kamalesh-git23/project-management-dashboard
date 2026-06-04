@@ -13,7 +13,7 @@ function Sidebar() {
         Dashboard
       </NavLink> */}
 
-      <NavLink to="/projects">
+      <NavLink to="/">
         <FaProjectDiagram/>
         Projects
       </NavLink>

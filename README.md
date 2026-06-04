@@ -1,151 +1,245 @@
 # 🚀 Project Management Dashboard
 
-A modern and responsive Project Management Dashboard built with React.js that helps teams manage projects and tasks efficiently using a Kanban-style workflow.
+[🌐 Live Demo](https://project-management-dashboard-k.netlify.app/) • [💼 LinkedIn](https://www.linkedin.com/in/a-kamalesh/)
+
+A modern and responsive **Project Management Dashboard** built with **React.js** that enables users to manage projects, organize tasks, and track progress through an intuitive Kanban workflow. The application features project management, task tracking, drag-and-drop functionality, local storage persistence, and a responsive user interface.
 
 ---
 
-## 📌 Features
+# ✨ Features
 
-### 📁 Project Management
-- Create Project
-- Edit Project
-- Delete Project
-- View Project Details
-- Project Status Tracking
-- Project Priority Management
-- Team Member Management
+## 📁 Project Management
 
-### 📋 Kanban Board
-- Todo
-- In Progress
-- Waiting
-- Done
+* Create New Projects
+* Edit Existing Projects
+* Delete Projects with Confirmation Modal
+* Project Overview Dashboard
+* Project Priority Tracking
+* Project Status Management
+* Team Member Assignment
+* Project Timeline Management
 
-### ✅ Task Management
-- Create Task
-- Edit Task
-- Delete Task
-- View Task Details
-- Task Priority
-- Due Date & Time
-- Task Type
-- Task Status
+---
 
-### 📎 Attachments
-- Upload Attachments
-- View Attachment List
-- Remove Attachments
+## 📋 Kanban Board
 
-### 📝 Notes
-- Add Notes
-- Remove Notes
+Each project contains its own dedicated Kanban Board.
 
-### 🔍 Search & Filter
-- Search Tasks
-- Filter by Priority
-- Filter by State
-- Sort by Due Date
-- Sort by Priority
+### Workflow Stages
 
-### 🎯 Drag & Drop
-- Move Tasks Between Columns
-- Real-Time State Updates
+* 📝 Todo
+* 🚀 In Progress
+* ⏳ Waiting
+* ✅ Done
 
-### 💾 Local Storage
-- Projects Persistence
-- Tasks Persistence
-- Data Retained After Refresh
+### Features
 
-### 📱 Responsive Design
-- Mobile Friendly
-- Tablet Friendly
-- Desktop Friendly
+* Drag & Drop Tasks
+* Real-Time Status Updates
+* Project-Specific Task Boards
+* Responsive Board Layout
+* Task Progress Visualization
+
+---
+
+## ✅ Task Management
+
+* Create Tasks
+* Edit Tasks
+* Delete Tasks
+* View Task Details
+* Due Date & Time Tracking
+* Task Priority Management
+* Task Status Tracking
+* Task Type Categorization
+
+---
+
+## 📎 Attachments
+
+* Upload Multiple Attachments
+* View Attachment Count
+* Remove Attachments
+
+---
+
+## 📝 Notes
+
+* Add Notes to Tasks
+* Remove Notes
+* Track Task Updates
+
+---
+
+## 🔍 Task Center
+
+A centralized page for managing all tasks across projects.
+
+### Features
+
+* Search Projects & Tasks
+* Filter by Project
+* Filter by Priority
+* Filter by Status
+* Sort A → Z
+* Sort Z → A
+* Sort by Due Date
+* Quick Edit Access
+
+---
+
+## 🗑️ Confirmation Modals
+
+* Delete Project Confirmation Modal
+* Delete Task Confirmation Modal
+
+---
+
+## 💾 Local Storage Persistence
+
+All application data is stored locally in the browser.
+
+### Stored Data
+
+* Projects
+* Tasks
+* Notes
+* Attachment Metadata
+
+### Benefits
+
+* No Backend Required
+* Data Persists After Refresh
+* Fast Performance
+
+---
+
+## 📱 Responsive Design
+
+* Desktop Optimized
+* Tablet Friendly
+* Mobile Responsive
+* Fixed Navbar
+* Fixed Sidebar Navigation
+* Modern Dashboard Layout
 
 ---
 
 # 🛠️ Tech Stack
 
-### Frontend
-- React.js
-- React Router DOM
-- React Context API
-- React Hooks
+## Frontend
 
-### Drag & Drop
-- @hello-pangea/dnd
+* React.js
+* React Router DOM
+* React Context API
+* React Hooks
 
-### Icons
-- React Icons
+## State Management
 
-### Storage
-- Local Storage
+* Context API
+* Local Storage
 
-### Styling
-- CSS3
-- Flexbox
-- CSS Grid
-- Media Queries
+## Drag & Drop
+
+* @hello-pangea/dnd
+
+## Icons
+
+* React Icons
+
+## Styling
+
+* CSS3
+* Flexbox
+* CSS Grid
+* Media Queries
 
 ---
 
 # 📂 Project Structure
 
 ```text
-src
+project-management-dashboard
 │
-├── components
+├── public
+│   ├── favicon.png
+│   ├── favicon.svg
+│   └── icons.svg
+│
+├── src
 │   │
-│   ├── common
-│   │   ├── Layout.jsx
-│   │   ├── Navbar.jsx
-│   │   └── Sidebar.jsx
+│   ├── components
+│   │   │
+│   │   ├── common
+│   │   │   ├── DeleteModal.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── Sidebar.jsx
+│   │   │
+│   │   ├── projects
+│   │   │   ├── ProjectCard.jsx
+│   │   │   └── ProjectForm.jsx
+│   │   │
+│   │   └── tasks
+│   │       ├── KanbanColumn.jsx
+│   │       ├── TaskCard.jsx
+│   │       └── TaskForm.jsx
 │   │
-│   ├── projects
-│   │   ├── ProjectCard.jsx
-│   │   └── ProjectForm.jsx
+│   ├── context
+│   │   ├── ProjectContext.jsx
+│   │   └── TaskContext.jsx
 │   │
-│   └── tasks
-│       ├── TaskCard.jsx
-│       ├── TaskForm.jsx
-│       └── KanbanColumn.jsx
+│   ├── pages
+│   │   ├── CreateProjectPage.jsx
+│   │   ├── CreateTaskPage.jsx
+│   │   ├── EditProjectPage.jsx
+│   │   ├── EditTaskPage.jsx
+│   │   ├── KanbanPage.jsx
+│   │   ├── ProjectsPage.jsx
+│   │   └── TasksPage.jsx
+│   │
+│   ├── routes
+│   │   └── AppRoutes.jsx
+│   │
+│   ├── utils
+│   │   └── storage.js
+│   │
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
 │
-├── context
-│   ├── ProjectContext.jsx
-│   └── TaskContext.jsx
-│
-├── pages
-│   ├── ProjectsPage.jsx
-│   ├── KanbanPage.jsx
-│   └── TaskDetailsPage.jsx
-│
-├── App.jsx
-├── main.jsx
-└── index.css
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── netlify.toml
+├── package.json
+└── package-lock.json
 ```
 
 ---
 
 # ⚙️ Installation
 
-### Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/your-username/project-management-dashboard.git
 ```
 
-### Navigate to Project
+## Navigate to Project Folder
 
 ```bash
 cd project-management-dashboard
 ```
 
-### Install Dependencies
+## Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Start Development Server
+## Start Development Server
 
 ```bash
 npm run dev
@@ -153,41 +247,103 @@ npm run dev
 
 ---
 
-# 📷 Screenshots
+# 🚀 Build for Production
 
-## Projects Page
+```bash
+npm run build
+```
 
-_Add Screenshot Here_
+The production build will be generated inside:
 
-![Projects Page](screenshots/projects-page.png)
-
----
-
-## Kanban Board
-
-_Add Screenshot Here_
-
-![Kanban Board](screenshots/kanban-board.png)
+```text
+dist/
+```
 
 ---
 
-## Task Details Page
+# 🌐 Deployment
 
-_Add Screenshot Here_
+The application is deployed on Netlify.
 
-![Task Details](screenshots/task-details-page.png)
+### Live Website
+
+https://project-management-dashboard-k.netlify.app/
+
+### Build Command
+
+```bash
+npm run build
+```
+
+### Publish Directory
+
+```text
+dist
+```
 
 ---
 
-# 🌳 Git Workflow
+# 📸 Screenshots
 
-This project follows a feature branch workflow.
+## 📁 Projects Overview
 
-### Branches Used
+*Add Screenshot Here*
+
+![Projects Overview](screenshots/projects-overview.png)
+
+---
+
+## ➕ Create Project
+
+*Add Screenshot Here*
+
+![Create Project](screenshots/create-project.png)
+
+---
+
+## 📋 Project Board
+
+*Add Screenshot Here*
+
+![Project Board](screenshots/project-board.png)
+
+---
+
+## ➕ Create Task
+
+*Add Screenshot Here*
+
+![Create Task](screenshots/create-task.png)
+
+---
+
+## 📊 Task Center
+
+*Add Screenshot Here*
+
+![Task Center](screenshots/task-center.png)
+
+---
+
+## ✏️ Task Details
+
+*Add Screenshot Here*
+
+![Task Details](screenshots/task-details.png)
+
+---
+
+
+## 🌳 Git Workflow
+
+The project was developed using a feature-based branching strategy.
+
+### Branches
 
 ```text
 main
 develop
+
 feature/project-crud
 feature/kanban-layout
 feature/task-create
@@ -198,34 +354,92 @@ feature/search-filter
 feature/local-storage
 feature/project-improvements
 feature/responsive-ui
+feature/tasks-table-page
+feature/ui-enhancements
+feature/v2-layout-refactor
 ```
 
 ### Workflow
 
 ```text
 feature/*
-     ↓
+    ↓
  develop
-     ↓
+    ↓
    main
 ```
 ---
 
-# 🚀 Future Improvements
+# 🎯 Learning Outcomes
 
-- User Authentication
-- Team Collaboration
-- Cloud Database Integration
-- Notifications
-- Comments System
-- Dark Mode Toggle
-- Dashboard Analytics
-- Activity Logs
-- Real File Upload Storage
-- Role-Based Access Control
+Through this project, the following concepts were implemented and practiced:
+
+* React Component Architecture
+* React Router Navigation
+* Context API State Management
+* Local Storage Persistence
+* Drag & Drop Functionality
+* CRUD Operations
+* Responsive Dashboard Design
+* Reusable Components
+* Modern UI/UX Design Principles
+
+---
+
+# 🔮 Future Improvements
+
+### Authentication & Security
+
+* User Authentication
+* User Registration
+* Protected Routes
+
+### Collaboration Features
+
+* Team Collaboration
+* Task Comments
+* Activity Logs
+
+### Notifications
+
+* Due Date Reminders
+* Email Notifications
+* In-App Alerts
+
+### Data Management
+
+* Backend Integration
+* Cloud Database Storage
+* Real File Upload Storage
+* REST API Integration
+
+### Dashboard Enhancements
+
+* Analytics Dashboard
+* Productivity Reports
+* Project Statistics
+* Task Completion Charts
+
+### UI Improvements
+
+* Dark Mode
+* Calendar View
+* Theme Customization
+* Advanced Filtering
 
 ---
 
 # 👨‍💻 Author
 
-**Kamalesh A**
+## Kamalesh A
+
+Computer Science Undergraduate (2027)
+
+### Connect With Me
+
+* LinkedIn: https://www.linkedin.com/in/a-kamalesh/
+* Live Demo: https://project-management-dashboard-k.netlify.app/
+
+---
+
+⭐ If you found this project useful, consider giving it a star on GitHub.

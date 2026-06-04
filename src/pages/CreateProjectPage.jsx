@@ -43,7 +43,7 @@ function CreateProjectPage() {
             ...formData
         });
 
-        navigate("/projects");
+        navigate("/");
     };
 
 
@@ -63,7 +63,7 @@ function CreateProjectPage() {
         <div className='form-actions'>
             <button type='button' 
                     className='cancel-btn' 
-                    onClick={() => navigate("/projects")}>
+                    onClick={() => navigate("/")}>
                 cancel
             </button>
 

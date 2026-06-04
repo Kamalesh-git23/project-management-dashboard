@@ -14,7 +14,7 @@ function AppRoutes() {
   return (
     <BrowserRouter>
         <Routes>
-            <Route path='/projects' element={<ProjectsPage/>}/>
+            <Route path='/' element={<ProjectsPage/>}/>
             <Route path='/projects/create' element={<CreateProjectPage/>}/>
             <Route path='/projects/edit/:projectId' element={<EditProjectPage/>}/>
 
