@@ -287,15 +287,11 @@ dist
 
 ## 📁 Projects Overview
 
-*Add Screenshot Here*
-
 ![Projects Overview](screenshots/projects-overview.png)
 
 ---
 
 ## ➕ Create Project
-
-*Add Screenshot Here*
 
 ![Create Project](screenshots/create-project.png)
 
@@ -303,15 +299,11 @@ dist
 
 ## 📋 Project Board
 
-*Add Screenshot Here*
-
 ![Project Board](screenshots/project-board.png)
 
 ---
 
 ## ➕ Create Task
-
-*Add Screenshot Here*
 
 ![Create Task](screenshots/create-task.png)
 
@@ -319,15 +311,11 @@ dist
 
 ## 📊 Task Center
 
-*Add Screenshot Here*
-
 ![Task Center](screenshots/task-center.png)
 
 ---
 
 ## ✏️ Task Details
-
-*Add Screenshot Here*
 
 ![Task Details](screenshots/task-details.png)
 
