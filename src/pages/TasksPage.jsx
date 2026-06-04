@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import DeleteModal from "../components/common/DeleteModal";
 import Layout from "../components/common/Layout";
 
 import { TaskContext } from "../context/TaskContext";
@@ -21,6 +22,10 @@ function TasksPage() {
   const { tasks, deleteTask } = useContext(TaskContext);
 
   const { projects } = useContext(ProjectContext);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -63,6 +68,21 @@ function TasksPage() {
   if (sortBy === "date") {
     filteredTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
   }
+
+
+  const handleDeleteClick = (task) => {
+    setSelectedTask(task);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!selectedTask) return;
+
+    deleteTask(selectedTask.id);
+
+    setShowDeleteModal(false);
+    setSelectedTask(null);
+  };
 
   return (
     <Layout pageTitle="Task Center">
@@ -188,15 +208,7 @@ function TasksPage() {
 
                       <button
                         className="icon-btn delete-btn"
-                        onClick={() => {
-                          const confirmed = window.confirm(
-                            `Delete task "${task.title}"?`,
-                          );
-
-                          if (confirmed) {
-                            deleteTask(task.id);
-                          }
-                        }}
+                        onClick={() => handleDeleteClick(task)}
                         title="Delete Task"
                       >
                         <FaTrash />
@@ -209,6 +221,15 @@ function TasksPage() {
           </table>
         </div>
       </div>
+      <DeleteModal
+        isOpen={showDeleteModal}
+        title="Delte Task"
+        message={selectedTask ? `Are you sure you want to delete "${selectedTask.title}"? This action cannot be undone.` : ""}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setSelectedTask(null)
+        }}/>
     </Layout>
   );
 }

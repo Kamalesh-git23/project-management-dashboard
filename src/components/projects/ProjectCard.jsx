@@ -1,67 +1,80 @@
-import React, { useContext } from 'react';
+import React, {useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import DeleteModal from '../common/DeleteModal';
 
 import { ProjectContext } from '../../context/ProjectContext';
 
 import { FaEdit,FaTrash } from 'react-icons/fa';
 
 function ProjectCard({project}) {
+
+    const [showDeleteModal,setShowDeleteModal] = useState(false);
     
     const navigate = useNavigate();
 
     const {deleteProject} = useContext(ProjectContext);
 
-    const handleDeleteProject = (e) => {
+    const handleDeleteClick = (e) => {
         e.stopPropagation();
 
-        const confirmed = window.confirm(
-            `Delete project "${project.name}"?\n\nThis action cannot be undone.`);
-
-        if(!confirmed) return;
-        
-        deleteProject(project.id);
+        setShowDeleteModal(true);
     };
 
+    const handleConfirmDelete =() => {
+        deleteProject(project.id);
+        setShowDeleteModal(false);
+    }
+
     return (
-        <div className='project-card' onClick={()=> navigate(`/project/${project.id}`)}>
-            <h3>{project.name}</h3>
+        <>
+            <div className='project-card' onClick={()=> navigate(`/project/${project.id}`)}>
+                <h3>{project.name}</h3>
 
-            <p>{project.description}</p>
+                <p>{project.description}</p>
 
-            <p> Type: {project.type} </p>
+                <p> <strong>Type:</strong> {project.type} </p>
 
-            <p> Priority: {project.priority} </p>
+                <p> <strong>Priority:</strong> {project.priority} </p>
 
-            <p> Status: {project.status} </p>
+                <p> <strong>Status:</strong> {project.status} </p>
 
-            <p> Start Date:{" "}
-                {new Date(project.startDate).toLocaleDateString("en-GB")} 
-            </p>
+                <p> <strong>Start Date:</strong>{" "}
+                    {new Date(project.startDate).toLocaleDateString("en-GB")} 
+                </p>
 
-            <p> End Date:{" "}
-                {new Date(project.endDate).toLocaleDateString("en-GB")} 
-            </p>
+                <p> <strong>End Date:</strong>{" "}
+                    {new Date(project.endDate).toLocaleDateString("en-GB")} 
+                </p>
 
-            <p> Team: {project.teamMembers} </p>
+                <p> <strong>Team:</strong> {project.teamMembers} </p>
 
-            <div className='card-actions'>
+                <div className='card-actions'>
 
-                <button className="icon-btn edit-btn"
-                        onClick={(e)=> {
-                            e.stopPropagation();
-                            navigate(`/projects/edit/${project.id}`);
-                        }}
-                        title="Edit Project"> 
-                    <FaEdit/>
-                </button>
+                    <button className="icon-btn edit-btn"
+                            onClick={(e)=> {
+                                e.stopPropagation();
+                                navigate(`/projects/edit/${project.id}`);
+                            }}
+                            title="Edit Project"> 
+                        <FaEdit/>
+                    </button>
 
-                <button className="icon-btn delete-btn"
-                        onClick={handleDeleteProject}
-                        title="Delete Project"> 
-                    <FaTrash/>
-                </button>
+                    <button className="icon-btn delete-btn"
+                            onClick={handleDeleteClick}
+                            title="Delete Project"> 
+                        <FaTrash/>
+                    </button>
+                </div>
             </div>
-        </div>
+            <DeleteModal
+                isOpen={showDeleteModal}
+                title="Delete Project"
+                message={`Are you sure you want to delete "${project.name}"? This action cannot be undone.`}
+                onConfirm={handleConfirmDelete}
+                onCancel={() => setShowDeleteModal(false)}/>
+        </>
+
   );
 }
 
